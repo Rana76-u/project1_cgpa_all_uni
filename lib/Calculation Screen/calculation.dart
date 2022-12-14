@@ -46,10 +46,22 @@ class _CalculationScreenState extends State<CalculationScreen> {
               ),
               //Check If any Uni. is selected or not
               if (widget.index == -1) ...[
-                const Text(
-                  "No university is selected",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                ),
+                Center(
+                  child: Column(
+                    children: [
+                      const Text(
+                        "No university is selected",
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                      ),
+                      const Text(
+                        "Click on your university from homepage",
+                        style: TextStyle(
+                            color: Colors.grey
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               ] else ...[
                 Text(
                   '${uniList[widget.index]['name']}',
@@ -235,28 +247,59 @@ class _CalculationScreenState extends State<CalculationScreen> {
                             child: DropdownButton(
                               items: const [
                                 DropdownMenuItem(
-                                  value: "4",
+                                  value: "A+",
+                                  child: Text("A+"),
+                                ),
+                                DropdownMenuItem(
+                                  value: "A",
                                   child: Text("A"),
                                 ),
                                 DropdownMenuItem(
-                                  value: "3.25",
+                                  value: "A-",
+                                  child: Text("A-"),
+                                ),
+                                DropdownMenuItem(
+                                  value: "B+",
+                                  child: Text("B+"),
+                                ),
+                                DropdownMenuItem(
+                                  value: "B",
                                   child: Text("B"),
                                 ),
                                 DropdownMenuItem(
-                                  value: "2.75",
-                                  child: Text("c"),
+                                  value: "B-",
+                                  child: Text("B-"),
                                 ),
                                 DropdownMenuItem(
-                                  value: "2.25",
+                                  value: "C+",
+                                  child: Text("C+"),
+                                ),DropdownMenuItem(
+                                  value: "C",
+                                  child: Text("C"),
+                                ),DropdownMenuItem(
+                                  value: "C-",
+                                  child: Text("C-"),
+                                ),
+                                DropdownMenuItem(
+                                  value: "D+",
+                                  child: Text("D+"),
+                                ),
+                                DropdownMenuItem(
+                                  value: "D",
                                   child: Text("D"),
                                 ),
                                 DropdownMenuItem(
-                                  value: "0.00",
+                                  value: "D-",
+                                  child: Text("D-"),
+                                ),
+                                DropdownMenuItem(
+                                  value: "F",
                                   child: Text("F"),
                                 ),
                               ],
                               onChanged: (value) {
-                                tempGrades = double.tryParse(value!)!;
+                                //tempGrades = double.tryParse(value!)!;
+                                tempGrades = value!;
                               },
                               isExpanded: true,
                               autofocus: true,
@@ -281,18 +324,24 @@ class _CalculationScreenState extends State<CalculationScreen> {
                   //ADD MORE Button
                   ElevatedButton(
                     onPressed: () {
-                      if (tempCredits != 0.0 && tempGrades != 0.0) {
+                      if (tempCredits != 0.0 && tempGrades != "") {
                         courseNames.add(tempCourseName);
                         credits.add(tempCredits);
                         grades.add(tempGrades);
 
-                        addDynamic();
-
                         Calculate();
+                        if(wrongGradeChecker == false){
+                          addDynamic();
+                        }else{
+                          cgpa = 0.0;
+                          courseNames.removeLast();
+                          credits.removeLast();
+                          grades.removeLast();
+                        }
 
                         tempCourseName = "";
                         tempCredits = 0.0;
-                        tempGrades = 0.0;
+                        tempGrades = "";
                         _txf1.clear();
                         _txf2.clear();
                         isComplete = true;
@@ -310,46 +359,55 @@ class _CalculationScreenState extends State<CalculationScreen> {
                     width: MediaQuery.of(context).size.width * 0.02,
                   ),
                 ]),
-              ],
-              if (isComplete == false) ...[
-                Text(
-                  "Credit & Grade are required*",
-                  style: TextStyle(
-                    color: Colors.red.shade300,
-                    fontWeight: FontWeight.bold,
+                if (isComplete == false) ...[
+                  Text(
+                    "Credit & Grade are required*",
+                    style: TextStyle(
+                      color: Colors.red.shade300,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ]else if(wrongGradeChecker == true) ...[
+                  Text(
+                    "[Wrong Grade Selected]",
+                    style: TextStyle(
+                      color: Colors.red.shade300,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+                //Here
+                const Divider(
+                  height: 45,
+                ),
+                //Text
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: const [
+                      Text(
+                        "CGPA Calculation Process: Total sum of all (grades * credits) / Total Credits",
+                        style: TextStyle(
+                            color: Colors.black54,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 21,
+                            fontStyle: FontStyle.italic),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 35,
+                ),
+                //Image
+                Container(
+                  child: Image(
+                    image: AssetImage(
+                        'assets/images/${uniList[widget.index]['cg_image']}'),
                   ),
                 ),
               ],
-              //Here
-              const Divider(
-                height: 45,
-              ),
-              //Text
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: const [
-                    Text(
-                      "CGPA Calculation Process: Total sum of all (grades * credits) / Total Credits",
-                      style: TextStyle(
-                          color: Colors.black54,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 21,
-                          fontStyle: FontStyle.italic),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 35,
-              ),
-              //Image
-              Container(
-                child: Image(
-                  image: AssetImage(
-                      'assets/images/${uniList[widget.index]['cg_image']}'),
-                ),
-              ),
+              //paste here
             ],
           ),
         ),

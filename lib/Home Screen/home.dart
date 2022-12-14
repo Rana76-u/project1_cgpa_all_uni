@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../bottom_bar.dart';
 import '../util/list.dart';
+import '../util/variables.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -11,6 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final TextEditingController _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   prefixIconColor: Colors.white,
                   labelText: "Search Your University",
                 ),
+                controller: _searchController,
               ),
             ),
           ),
@@ -81,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
           //Horizontal Row
           Container(
               margin: const EdgeInsets.symmetric(horizontal: 15),
-              height: 110,
+              height: MediaQuery.of(context).size.height*0.6,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   border: Border.all(
@@ -89,59 +92,66 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 2,
                   )
               ),
-              child: SingleChildScrollView(
+              /*child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: List.generate(
-                    uniList.length,
-                        (index) {
-                      return SizedBox(
-                        height: 100,
-                        width: 100,
-                        child: GestureDetector(
-                          ///***Continue Form here
-                          onTap: (){
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => BottomBar(bottomIndex: 1, cardIndex: index,),
-                            ));
-                            /*Navigator.of(context).push(
+                  children: ,
+                ),*/
+            child: GridView.builder(
+                itemCount: uniList.length,
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 130,
+                  childAspectRatio: 1,
+                  crossAxisSpacing: 0,
+                  mainAxisSpacing: 0
+                ), itemBuilder: (BuildContext context, index){
+                  return SizedBox(
+                    child: GestureDetector(
+                      onTap: (){
+                        cgpa = 0.0;
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => BottomBar(bottomIndex: 1, cardIndex: index,),
+                        ));
+                        /*Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (BuildContext context) => const CalculationScreen(),
                                 )
                             );*/
-                          },
-                          child: Card(
-                            child: Column(
-                              children: [
-                                Image(
-                                  image: AssetImage(
-                                      "assets/images/${uniList[index]['image']}"
-                                    //'${uniList[index]['image']}'
-                                  ),
-                                  height: 60,
-                                  width: 70,
-                                ),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height*0.01,
-                                ),
-                                Text(
-                                  '${uniList[index]['short']}',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
+                      },
+                      child: Card(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height*0.015,
                             ),
-                          ),
+                            Image(
+                              image: AssetImage(
+                                  "assets/images/${uniList[index]['image']}"
+                                //'${uniList[index]['image']}'
+                              ),
+                              height: 60,
+                              width: 70,
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height*0.01,
+                            ),
+                            Text(
+                              '${uniList[index]['short']}',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                      );
-                    },
-                  ),
-                ),
-              )
-          ),
+                      ),
+                    ),
+                  );
+            }
+            ),
+              ),
         ],
       ),
     );
   }
 }
+

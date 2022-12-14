@@ -40,5 +40,20 @@ List<Map<String, dynamic>> uniList = [
     'name': 'United International University',
     'short': 'UIU'
   },
+  {
+    'image': 'du.png',
+    'name': 'Dhaka University',
+    'short': 'DU'
+  },
+  {
+    'image': 'sher.png',
+    'name': 'Sher-e-Bangla Agricultural University',
+    'short': 'SAU'
+  },
+  {
+    'image': 'ulab.jpg',
+    'name': 'University of Liberal Arts Bangladesh',
+    'short': 'ULAB'
+  },
 
 ];
