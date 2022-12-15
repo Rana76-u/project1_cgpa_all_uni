@@ -300,7 +300,11 @@ class _CalculationScreenState extends State<CalculationScreen> {
                               onChanged: (value) {
                                 //tempGrades = double.tryParse(value!)!;
                                 tempGrades = value!;
+                                setState(() {
+                                  tempdropdownValue = value;
+                                });
                               },
+                              value: tempdropdownValue,
                               isExpanded: true,
                               autofocus: true,
                               hint: const Text(
@@ -333,7 +337,7 @@ class _CalculationScreenState extends State<CalculationScreen> {
                         if(wrongGradeChecker == false){
                           addDynamic();
                         }else{
-                          cgpa = 0.0;
+                          //cgpa = 0.0;
                           courseNames.removeLast();
                           credits.removeLast();
                           grades.removeLast();
@@ -342,6 +346,8 @@ class _CalculationScreenState extends State<CalculationScreen> {
                         tempCourseName = "";
                         tempCredits = 0.0;
                         tempGrades = "";
+                        tempdropdownValue = null;
+
                         _txf1.clear();
                         _txf2.clear();
                         isComplete = true;

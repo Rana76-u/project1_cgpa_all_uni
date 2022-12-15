@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../bottom_bar.dart';
 import '../util/list.dart';
+import '../util/variables.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -41,9 +42,12 @@ class _SearchScreenState extends State<SearchScreen> {
         margin : const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: [
+            //White Space
             SizedBox(
               height: MediaQuery.of(context).size.height*0.1,
             ),
+
+            //Search Box
             SizedBox(
               height: MediaQuery.of(context).size.height*0.08,
               child: Card(
@@ -78,6 +82,8 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
             ),
+
+            //List of Universities
             Expanded(
               child: ListView.builder(
                 itemCount: _foundUnis.length,
@@ -103,6 +109,8 @@ class _SearchScreenState extends State<SearchScreen> {
                         style: const TextStyle(color: Colors.grey),
                       ),
                       onTap: () {
+                        cgpa = 0.0;
+                        tempdropdownValue = null;
                         setState(() {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => BottomBar(bottomIndex: 1, cardIndex: _foundUnis[index]['id'],),
@@ -117,6 +125,15 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ]
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(
+            Icons.arrow_back_rounded,
+          size: 23,
+        ),
+        onPressed: (){
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  BottomBar(bottomIndex: 0, cardIndex: -1)));
+        },
       ),
     );
   }

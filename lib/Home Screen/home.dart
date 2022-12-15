@@ -1,5 +1,6 @@
 import 'package:cgpa_all_uni/Home%20Screen/searchScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
 import '../bottom_bar.dart';
 import '../util/list.dart';
@@ -23,8 +24,31 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height*0.1,
+              height: MediaQuery.of(context).size.height*0.05,
             ),
+
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Text(
+                    "CGPA Calculator",
+                    style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),Text(
+                    "#Bangladesh",
+                    style: TextStyle(
+                        fontSize: 15,
+                      color: Colors.grey
+                    ),
+                  ),
+                ]
+              ),
+            ),
+
             //Search Box
             GestureDetector(
               onTap: (){
@@ -68,8 +92,37 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height*0.1,
+              height: MediaQuery.of(context).size.height*0.025,
             ),
+
+            Center(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width*0.9,
+                height: MediaQuery.of(context).size.height*0.17,
+                child: const ImageSlideshow(
+                  indicatorColor: Colors.blue,
+                  autoPlayInterval: 1500,
+                  isLoop: true,
+                    children: [
+                      Image(
+                        image: AssetImage("assets/images/ads/ex_one.jpg"),
+                        fit: BoxFit.cover,
+                      ),Image(
+                        image: AssetImage("assets/images/ads/ex_two.webp"),
+                        fit: BoxFit.cover,
+                      ),Image(
+                        image: AssetImage("assets/images/ads/ex_three.jpg"),
+                        fit: BoxFit.cover,
+                      ),
+                    ],
+                ),
+              ),
+            ),
+
+            SizedBox(
+              height: MediaQuery.of(context).size.height*0.025,
+            ),
+
             //Quick Access
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 15),
@@ -95,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
             //Horizontal Row
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 15),
-              height: MediaQuery.of(context).size.height*0.6,
+              height: MediaQuery.of(context).size.height*0.55,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   border: Border.all(
@@ -120,6 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: GestureDetector(
                     onTap: (){
                       cgpa = 0.0;
+                      tempdropdownValue = null;
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => BottomBar(bottomIndex: 1, cardIndex: index,),
                       ));
@@ -159,6 +213,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }
               ),
+            ),
+
+            const SizedBox(
+              height: 25,
             ),
           ],
         ),
